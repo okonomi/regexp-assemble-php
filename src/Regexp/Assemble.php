@@ -85,8 +85,33 @@ class Regexp_Assemble
         return $key;
     }
 
+    // return the offset that the first node is found, or -ve
+    // optimised for speed
+    static public function _node_offset($values) {
+        $atom = -1;
+        foreach ($values as $value) {
+            $atom++;
+            if (self::isHash($value)) {
+                return $atom;
+            }
+        }
+
+        return -1;
+    }
+
     public function _path() {
         // access the path
         return $this->path;
+    }
+
+    static public function isHash($value)
+    {
+        if (!is_array($value)) {
+            return false;
+        }
+
+        reset($value);
+        list ($k) = each($value);
+        return $k !== 0;
     }
 }

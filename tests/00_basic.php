@@ -147,35 +147,43 @@ $t->is(Regexp_Assemble::_node_key(
     ), 'abc', '_node_key(5)'
 );
 
+$t->is(Regexp_Assemble::_node_offset(
+           array('a', 'b', '\\d+', 'e', '\\d')
+    ), -1, '_node_offset(1)'
+);
+
+$t->is(Regexp_Assemble::_node_offset(
+           array(array('x' => array('x'), '' => null), 'a', 'b', '\\d+', 'e', '\\d')
+    ), 0, '_node_offset(2)'
+);
+
+$t->is(Regexp_Assemble::_node_offset(
+           array('a', 'b', '\\d+', 'e', array('a' => 1, 'b' => 2), 'x', 'y', 'z')
+    ), 4, '_node_offset(3)'
+);
+
+$t->is(Regexp_Assemble::_node_offset(
+           array(array('z' => 1, 'x' => 2), 'b', '\\d+', 'e', array('a' => 1, 'b' => 2), 'z')
+    ), 0, '_node_offset(4)'
+);
+
+$t->is(Regexp_Assemble::_node_offset(
+           array(
+               array(
+                   1, 2, 3, array(
+                       'a' => array('a'), 'b' => array('b'),
+                   ),
+               ),
+               'a',
+               array('z' => 1, 'x' => 2),
+           )
+    ), 2, '_node_offset(5)'
+);
 
 /*
 
 
 
-is( Regexp::Assemble::_node_offset(
-        [ 'a', 'b', '\\d+', 'e', '\\d' ]
-    ), -1, '_node_offset(1)'
-);
-
-is( Regexp::Assemble::_node_offset(
-        [ {x => ['x'], '' => undef}, 'a', 'b', '\\d+', 'e', '\\d' ]
-    ), 0, '_node_offset(2)'
-);
-
-is( Regexp::Assemble::_node_offset(
-        [ 'a', 'b', '\\d+', 'e', {a => 1, b => 2}, 'x', 'y', 'z' ]
-    ), 4, '_node_offset(3)'
-);
-
-is( Regexp::Assemble::_node_offset(
-        [ { z => 1, x => 2 }, 'b', '\\d+', 'e', {a => 1, b => 2}, 'z' ]
-    ), 0, '_node_offset(4)'
-);
-
-is( Regexp::Assemble::_node_offset(
-        [ [ 1, 2, 3, {a => ['a'], b=>['b']} ], 'a', { z => 1, x => 2 } ]
-    ), 2, '_node_offset(5)'
-);
 
 is( Regexp::Assemble::_node_eq(     {},     {}), 1, '{} eq {}');
 is( Regexp::Assemble::_node_eq(  undef,     {}), 0, 'undef ne {}');
