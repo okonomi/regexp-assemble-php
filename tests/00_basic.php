@@ -180,22 +180,19 @@ $t->is(Regexp_Assemble::_node_offset(
     ), 2, '_node_offset(5)'
 );
 
+$t->is(Regexp_Assemble::_node_eq(     array(),      array()), 1, 'array() eq array()');
+$t->is(Regexp_Assemble::_node_eq(        null,      array()),  0, 'null ne array()');
+$t->is(Regexp_Assemble::_node_eq(     array(),         null),  0, 'array() ne null');
+$t->is(Regexp_Assemble::_node_eq(        null,         null),  0, 'null ne null');
+$t->is(Regexp_Assemble::_node_eq(    array(0),     array(0)),  1, 'eq array(0)');
+$t->is(Regexp_Assemble::_node_eq(array(0,1,2), array(0,1,2)),  1, 'eq array(0,1,2)');
+$t->is(Regexp_Assemble::_node_eq(array(0,1,2), array(0,1,3)), '', 'ne array(0,1,2)');
+$t->is(Regexp_Assemble::_node_eq(  array(1,2), array(0,1,2)), '', 'ne array(1,2)');
+
 /*
 
 
 
-
-is( Regexp::Assemble::_node_eq(     {},     {}), 1, '{} eq {}');
-is( Regexp::Assemble::_node_eq(  undef,     {}), 0, 'undef ne {}');
-is( Regexp::Assemble::_node_eq(     {},  undef), 0, '{} ne undef');
-is( Regexp::Assemble::_node_eq(  undef,  undef), 0, 'undef ne undef');
-is( Regexp::Assemble::_node_eq(     [],     []), 1, '[] eq []');
-is( Regexp::Assemble::_node_eq(     [],     {}), 0, '[] ne {}'); 
-is( Regexp::Assemble::_node_eq(     {},     []), 0, '{} ne []');
-is( Regexp::Assemble::_node_eq(    [0],    [0]), 1, 'eq [0]');
-is( Regexp::Assemble::_node_eq([0,1,2],[0,1,2]), 1, 'eq [0,1,2]');
-is( Regexp::Assemble::_node_eq([0,1,2],[0,1,3]), '', 'ne [0,1,2]');
-is( Regexp::Assemble::_node_eq(  [1,2],[0,1,2]), '', 'ne [1,2]');
 
 is( Regexp::Assemble::_node_eq(
         {'a'=>['a','b']},
