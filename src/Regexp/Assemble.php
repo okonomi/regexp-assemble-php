@@ -73,6 +73,18 @@ class Regexp_Assemble
         return $this;
     }
 
+    static public function _node_key($node) {
+        $key = '';
+        foreach ($node as $k => $v) {
+            if (!empty($k)) {
+                $key = $k;
+                break;
+            }
+        }
+
+        return $key;
+    }
+
     public function _path() {
         // access the path
         return $this->path;

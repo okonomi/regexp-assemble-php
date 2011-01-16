@@ -122,35 +122,35 @@ $t->is(count($rt->_path()), 0, '_path() is empty' );
     $t->ok(!is_callable($r->filter), 'filter(0)');
 }
 
+$t->is(Regexp_Assemble::_node_key(
+           array('a' => 1, 'b' => 2, 'c' => 3)
+       ), 'a', '_node_key(1)'
+);
+
+$t->is(Regexp_Assemble::_node_key(
+           array('b' => 3, 'c' => 2, 'z' => 1)
+    ), 'b', '_node_key(2)'
+);
+
+$t->is(Regexp_Assemble::_node_key(
+           array('a' => 1, 'a.' => 2, 'b' => 3)
+    ), 'a', '_node_key(3)'
+);
+
+$t->is(Regexp_Assemble::_node_key(
+           array('' => null, 'a' => 1, 'a.' => 2, 'b' => 3)
+    ), 'a', '_node_key(4)'
+);
+
+$t->is(Regexp_Assemble::_node_key(
+           array('' => null, 'abc' => 1, 'def' => 2, 'g' => 3)
+    ), 'abc', '_node_key(5)'
+);
+
 
 /*
 
 
-
-is( Regexp::Assemble::_node_key(
-        { a => 1, b=>2, c=>3 }
-    ), 'a', '_node_key(1)'
-);
-
-is( Regexp::Assemble::_node_key(
-        { b => 3, c=>2, z=>1 }
-    ), 'b', '_node_key(2)'
-);
-
-is( Regexp::Assemble::_node_key(
-        { a => 1, 'a.' => 2, b => 3 }
-    ), 'a', '_node_key(3)'
-);
-
-is( Regexp::Assemble::_node_key(
-        { '' => undef, a => 1, 'a.' => 2, b => 3 }
-    ), 'a', '_node_key(4)'
-);
-
-is( Regexp::Assemble::_node_key(
-        { '' => undef, abc => 1, def => 2, g => 3 }
-    ), 'abc', '_node_key(5)'
-);
 
 is( Regexp::Assemble::_node_offset(
         [ 'a', 'b', '\\d+', 'e', '\\d' ]
