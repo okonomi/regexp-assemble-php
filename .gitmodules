@@ -1,0 +1,3 @@
+[submodule "vendor/Lime-Test-Pluggable"]
+	path = vendor/Lime-Test-Pluggable
+	url = git://github.com/nekoya/Lime-Test-Pluggable.git
