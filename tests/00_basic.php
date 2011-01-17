@@ -189,70 +189,70 @@ $t->is(Regexp_Assemble::_node_eq(array(0,1,2), array(0,1,2)),  1, 'eq array(0,1,
 $t->is(Regexp_Assemble::_node_eq(array(0,1,2), array(0,1,3)), '', 'ne array(0,1,2)');
 $t->is(Regexp_Assemble::_node_eq(  array(1,2), array(0,1,2)), '', 'ne array(1,2)');
 
+$t->is(Regexp_Assemble::_node_eq(
+           array('a' => array('a','b')),
+           array('a' => array('a','b'))
+       ), 1, 'eq {a}'
+);
+
+$t->is(Regexp_Assemble::_node_eq(
+           array('a' => array('a','b')),
+           array('a' => array('a','b'), '' => null)
+       ), '', 'ne {a}'
+);
+
+$t->is(Regexp_Assemble::_node_eq(
+           array('a' => array('a','b'), 'b' => array('b','c')),
+           array('a' => array('a','b'), 'b' => array('b','c'))
+       ), 1, 'eq {a,b}'
+);
+
+$t->is(Regexp_Assemble::_node_eq(
+           array('a'=>array('a','b'), 'b'=>array('b','c')),
+           array('a'=>array('a','b'), 'b'=>array('b','d'))
+       ), '', 'ne {a,b}'
+);
+
+$t->is(Regexp_Assemble::_node_eq(
+        array(array('a'=>array('a','b'), 'b'=>array('b','c')), array('z'=>array('z','y'), 'm'=>array('m','n'))),
+        array(array('a'=>array('a','b'), 'b'=>array('b','c')), array('z'=>array('z','y'), 'm'=>array('m','n')))
+    ), 1, 'eq {a,b},{z,m}'
+);
+
+$t->is(Regexp_Assemble::_node_eq(
+        array(array('a'=>array('a','b'), 'b'=>array('b','c')), array('z'=>array('z','y'), 'm'=>array('m','n'))),
+        array(array('a'=>array('a','b'), 'b'=>array('b','c')), array('z'=>array('z','y'), 'm'=>array('m','n','o')))
+    ), '', 'ne {a,b},{z,m}'
+);
+
+$t->is(Regexp_Assemble::_node_eq(
+        array(''=>null, 'a'=>array('a','b')),
+        array(''=>null, 'a'=>array('a','b'))
+    ), 1, '{eq {* a}'
+);
+
+$t->is(Regexp_Assemble::_node_eq(
+        array(''=>null, 'a'=>array('a','b')),
+        array(''=>null, 'a'=>array('a','b','c'))
+    ), '', '{ne {* a}'
+);
+
+$t->is(Regexp_Assemble::_node_eq(
+        array('z','\\d+', array('a'=>array('a','b'))),
+        array('z','\\d+', array('a'=>array('a','b')))
+    ), 1, 'eq [z \d+ {a}]'
+);
+
+$t->is(Regexp_Assemble::_node_eq(
+        array('z','\\d+', array('a'=>array('a','b'), 'z'=>array('z','y','x'))),
+        array('z','\\d+', array('a'=>array('a','b'), 'z'=>array('z','y','x')))
+    ), 1, 'eq [z \d+ {a,z}]'
+);
+
 /*
 
 
 
-
-is( Regexp::Assemble::_node_eq(
-        {'a'=>['a','b']},
-        {'a'=>['a','b']},
-    ), 1, 'eq {a}'
-);
-
-is( Regexp::Assemble::_node_eq(
-        {'a'=>['a','b']},
-        {'a'=>['a','b'], '' => undef},
-    ), '', 'ne {a}'
-);
-
-is( Regexp::Assemble::_node_eq(
-        {'a'=>['a','b'], 'b'=>['b','c']},
-        {'a'=>['a','b'], 'b'=>['b','c']},
-    ), 1, 'eq {a,b}'
-);
-
-is( Regexp::Assemble::_node_eq(
-        {'a'=>['a','b'], 'b'=>['b','c']},
-        {'a'=>['a','b'], 'b'=>['b','d']},
-    ), '', 'ne {a,b}'
-);
-
-is( Regexp::Assemble::_node_eq(
-        [{'a'=>['a','b'], 'b'=>['b','c']}, {'z'=>['z','y'], 'm'=>['m','n']}],
-        [{'a'=>['a','b'], 'b'=>['b','c']}, {'z'=>['z','y'], 'm'=>['m','n']}],
-    ), 1, 'eq {a,b},{z,m}'
-);
-
-is( Regexp::Assemble::_node_eq(
-        [{'a'=>['a','b'], 'b'=>['b','c']}, {'z'=>['z','y'], 'm'=>['m','n']}],
-        [{'a'=>['a','b'], 'b'=>['b','c']}, {'z'=>['z','y'], 'm'=>['m','n','o']}],
-    ), '', 'ne {a,b},{z,m}'
-);
-
-is( Regexp::Assemble::_node_eq(
-        {''=>undef, 'a'=>['a','b']},
-        {''=>undef, 'a'=>['a','b']},
-    ), 1, '{eq {* a}'
-);
-
-is( Regexp::Assemble::_node_eq(
-        {''=>undef, 'a'=>['a','b']},
-        {''=>undef, 'a'=>['a','b','c']},
-    ), '', '{ne {* a}'
-);
-
-is( Regexp::Assemble::_node_eq(
-        ['z','\\d+', {'a'=>['a','b']}],
-        ['z','\\d+', {'a'=>['a','b']}],
-    ), 1, 'eq [z \d+ {a}]'
-);
-
-is( Regexp::Assemble::_node_eq(
-        ['z','\\d+', {'a'=>['a','b'], 'z'=>['z','y','x']}],
-        ['z','\\d+', {'a'=>['a','b'], 'z'=>['z','y','x']}],
-    ), 1, 'eq [z \d+ {a,z}]'
-);
 
 my $stub = Regexp::Assemble->new;
 
