@@ -9,3 +9,6 @@ set_include_path(realpath(dirname(__FILE__) . '/../src') . PATH_SEPARATOR .
 );
 
 require_once 'lime/pluggable.php';
+require_once 'PHP/Perlish.php';
+
+PHP_Perlish::loadFunction(array('is_hash', 'qw'));

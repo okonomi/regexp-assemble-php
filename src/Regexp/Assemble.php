@@ -1,5 +1,9 @@
 <?php
 
+require_once 'PHP/Perlish.php';
+
+PHP_Perlish::loadFunction('is_hash');
+
 
 class Regexp_Assemble
 {
@@ -91,7 +95,7 @@ class Regexp_Assemble
         $atom = -1;
         foreach ($values as $value) {
             $atom++;
-            if (self::isHash($value)) {
+            if (is_hash($value)) {
                 return $atom;
             }
         }
@@ -191,16 +195,5 @@ public function _re_path {
     public function _path() {
         // access the path
         return $this->path;
-    }
-
-    static public function isHash($value)
-    {
-        if (!is_array($value)) {
-            return false;
-        }
-
-        reset($value);
-        list ($k) = each($value);
-        return $k !== 0;
     }
 }
