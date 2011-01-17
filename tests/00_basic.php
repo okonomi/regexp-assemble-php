@@ -975,3 +975,4 @@ is_deeply( [@list], [@out], 'bogus coverage improvements rulez' );
 
 is( $_, $fixed, '$_ has not been altered' );
 
+*/
