@@ -49,6 +49,11 @@ class Regexp_Assemble
         return $this;
     }
 
+    public function fold_meta_pairs($fold_meta_pairs = 1) {
+        $this->fold_meta_pairs = $fold_meta_pairs;
+        return $this;
+    }
+
     public function mutable($mutable = 1) {
         $this->mutable = $mutable;
         return $this;

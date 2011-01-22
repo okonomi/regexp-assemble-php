@@ -311,27 +311,27 @@ $t->is(Regexp_Assemble::_make_class($stub, array('\\.', '\\+')),
     '[+.]', '_make_class \\. \\+'
 );
 
-/*
 $stub->fold_meta_pairs(0);
 
-is( Regexp::Assemble::_make_class($stub, '\\d', '\\D' ),
+$t->is(Regexp_Assemble::_make_class($stub, array('\\d', '\\D')),
     '[\\D\\d]', '_make_class \\d \\D no fold meta pairs'
 );
 
-is( Regexp::Assemble::_make_class($stub, '\\s', '\\S' ),
+$t->is(Regexp_Assemble::_make_class($stub, array('\\s', '\\S')),
     '[\\S\\s]', '_make_class \\s \\S no fold meta pairs'
 );
 
-is( Regexp::Assemble::_make_class($stub, '\\w', '\\W' ),
+$t->is(Regexp_Assemble::_make_class($stub, array('\\w', '\\W')),
     '[\\W\\w]', '_make_class \\w \\W no fold meta pairs'
 );
 
 $stub->fold_meta_pairs();
 
-is( Regexp::Assemble::_make_class($stub, '\\s', '\\S' ),
+$t->is(Regexp_Assemble::_make_class($stub, array('\\s', '\\S')),
     '.', '_make_class \\s \\S implicit fold_meta_pairs'
 );
 
+/*
 sub xcmp {
     my $r = Regexp::Assemble->new;
     is_deeply(
