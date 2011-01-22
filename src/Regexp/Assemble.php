@@ -20,6 +20,7 @@ class Regexp_Assemble
     public $modifiers;
     public $track;
     public $reduce;
+    public $fold_meta_pairs = 1;
 
     public $pre_filter;
 
@@ -192,6 +193,66 @@ public function _re_path {
     } @{$_[0]}
 }
     */
+
+    static public function _make_class(&$stub, $set) {
+        $set = array_combine($set, array_pad(array(), count($set), 1));
+
+        if (isset($set['\\w'])) {unset($set['\\d']);}
+        if (isset($set['\\W'])) {unset($set['\\D']);}
+
+        if (isset($set['.']) ||
+            ($stub->fold_meta_pairs && (
+                   (isset($set['\\d']) && isset($set['\\D']))
+                or (isset($set['\\s']) && isset($set['\\S']))
+                or (isset($set['\\w']) && isset($set['\\W']))
+            ))) {
+            return '.';
+        }
+
+        foreach (array('\\d', '\\D', '\\s', '\\S', '\\w', '\\W') as $meta) {
+            if (isset($set[$meta])) {
+                foreach (array_keys($set) as $key) {
+                    if (preg_match('/^'.$meta.'$/', $key)) {
+                        unset($set[$key]);
+                    }
+                }
+            }
+        }
+
+        if (count($set) === 1) {
+            reset($set);
+            return key($set);
+        }
+
+        foreach (array( '.', '+', '*', '?', '(', ')', '^', '@', '$', '[', '/', ) as $meta) {
+            if (isset($set["\\$meta"])) {
+                unset($set["\\$meta"]);
+                $set[$meta] = 1;
+            }
+        }
+
+        $dash = '';
+        if (isset($set['-'])) {
+            unset($set['-']);
+            $dash = '-';
+        }
+        $caret = '';
+        if (isset($set['^'])) {
+            unset($set['^']);
+            $caret = '^';
+        }
+
+        ksort($set);
+        $class = implode('', array_keys($set));
+        if ($c = preg_replace('/0123456789/', '\d', $class)) {
+            if ($c === '\d') {
+                return $c;
+            }
+        }
+
+        return "[$dash$class$caret]";
+    }
+
     public function _path() {
         // access the path
         return $this->path;

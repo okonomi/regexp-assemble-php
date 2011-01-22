@@ -249,73 +249,69 @@ $t->is(Regexp_Assemble::_node_eq(
     ), 1, 'eq [z \d+ {a,z}]'
 );
 
-/*
+$stub = new Regexp_Assemble();
 
-
-
-
-my $stub = Regexp::Assemble->new;
-
-is( Regexp::Assemble::_make_class($stub, qw/ a b c / ),
+$t->is(Regexp_Assemble::_make_class($stub, qw(' a b c ')),
     '[abc]', '_make_class a b c'
 );
 
-is( Regexp::Assemble::_make_class($stub, qw/ a a c / ),
+$t->is(Regexp_Assemble::_make_class($stub, qw(' a a c ')),
     '[ac]', '_make_class a a c'
 );
 
-is( Regexp::Assemble::_make_class($stub, qw/ 0 1 2 / ),
+$t->is(Regexp_Assemble::_make_class($stub, qw(' 0 1 2 ')),
     '[012]', '_make_class 0 1 2'
 );
 
-is( Regexp::Assemble::_make_class($stub, qw/ 0 1 2 3 4 5 6 7 8 9 / ),
+$t->is(Regexp_Assemble::_make_class($stub, qw(' 0 1 2 3 4 5 6 7 8 9 ')),
     '\\d', '_make_class 0 1 ... 9'
 );
 
-is( Regexp::Assemble::_make_class($stub, '\\d', '\\D' ),
+$t->is(Regexp_Assemble::_make_class($stub, array('\\d', '\\D')),
     '.', '_make_class \\d \\D'
 );
 
-is( Regexp::Assemble::_make_class($stub, '\\s', '\\S' ),
+$t->is(Regexp_Assemble::_make_class($stub, array('\\s', '\\S')),
     '.', '_make_class \\s \\S'
 );
 
-is( Regexp::Assemble::_make_class($stub, '\\w', '\\W' ),
+$t->is(Regexp_Assemble::_make_class($stub, array('\\w', '\\W')),
     '.', '_make_class \\w \\W'
 );
 
-is( Regexp::Assemble::_make_class($stub, '\\w', '\\d' ),
+$t->is(Regexp_Assemble::_make_class($stub, array('\\w', '\\d')),
     '\\w', '_make_class \\w \\d'
 );
 
-is( Regexp::Assemble::_make_class($stub, '\\W', '\\D' ),
+$t->is(Regexp_Assemble::_make_class($stub, array('\\W', '\\D')),
     '\\W', '_make_class \\W \\D'
 );
 
-is( Regexp::Assemble::_make_class($stub, '\\W', '\\d' ),
+$t->is(Regexp_Assemble::_make_class($stub, array('\\W', '\\d')),
     '[\\W\\d]', '_make_class \\W \\d'
 );
 
-is( Regexp::Assemble::_make_class($stub, '\\d', qw/5 a / ),
+$t->is(Regexp_Assemble::_make_class($stub, array_merge(array('\\d'), qw('5 a '))),
     '[\\da]', '_make_class \\d 5 a'
 );
 
-is( Regexp::Assemble::_make_class($stub, qw/ a z - / ),
+$t->is(Regexp_Assemble::_make_class($stub, qw(' a z - ')),
     '[-az]', '_make_class a z -'
 );
 
-is( Regexp::Assemble::_make_class($stub, qw/ a z ^ / ),
+$t->is(Regexp_Assemble::_make_class($stub, qw(' a z ^ ')),
     '[az^]', '_make_class a z ^'
 );
 
-is( Regexp::Assemble::_make_class($stub, qw/ a z ^ - / ),
+$t->is(Regexp_Assemble::_make_class($stub, qw(' a z ^ - ')),
     '[-az^]', '_make_class a z ^ -'
 );
 
-is( Regexp::Assemble::_make_class($stub, '\\.', '\\+' ),
+$t->is(Regexp_Assemble::_make_class($stub, array('\\.', '\\+')),
     '[+.]', '_make_class \\. \\+'
 );
 
+/*
 $stub->fold_meta_pairs(0);
 
 is( Regexp::Assemble::_make_class($stub, '\\d', '\\D' ),
